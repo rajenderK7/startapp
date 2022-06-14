@@ -1,3 +1,31 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-[#2d2f33];
+  }
+}
+
+@layer components {
+  .app-color {
+    @apply bg-[#0055FF];
+  }
+
+  .app-color-text {
+    @apply text-[#0055FF];
+  }
+
+  .nav-icon {
+    @apply h-6 w-6 lg:h-9 lg:w-9 lg:p-1 lg:hover:bg-slate-100 lg:hover:rounded-md lg:m-1 lg:hover:text-black hover:cursor-pointer;
+  }
+
+  .icon {
+    @apply h-6 w-6 lg:h-9 lg:w-9 lg:p-1 lg:m-1 hover:cursor-pointer;
+  }
+
+  .nav-heading {
+    @apply text-[#A0A4AB];
+  }
+}
