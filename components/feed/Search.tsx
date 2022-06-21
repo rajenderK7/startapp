@@ -1,5 +1,5 @@
-import React from "react";
-import { SearchIcon } from "@heroicons/react/solid";
+import React, { useRef, useState } from "react";
+import { SearchIcon, XIcon } from "@heroicons/react/solid";
 import { FieldValues, useForm } from "react-hook-form";
 
 const Search = () => {
@@ -10,10 +10,16 @@ const Search = () => {
     formState: { errors },
   } = useForm();
 
+  // const [searchText, setSearchText] = useState("");
+
+  const searchText = useRef();
+
   const onSubmitHandler = (searchObj: FieldValues) => {
     console.log(searchObj.search);
     reset();
   };
+
+  const handleClear = () => reset();
 
   return (
     <form
@@ -27,6 +33,10 @@ const Search = () => {
         id="search"
         placeholder="Search something..."
         {...register("search")}
+      />
+      <XIcon
+        className="h-5 w-5 mr-1 cursor-pointer text-gray-500"
+        onClick={handleClear}
       />
       <button type="submit" hidden />
     </form>

@@ -1,7 +1,8 @@
+import { NextPage } from "next";
 import React from "react";
 
-const popular = () => {
+const Popular: NextPage = () => {
   return <div>popular</div>;
 };
 
-export default popular;
+export default Popular;

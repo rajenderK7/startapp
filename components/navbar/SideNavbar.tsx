@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { discoverItems, exploreItems } from "../shared/nav_items";
 import SideNavbarHeading from "./SideNavbarHeading";
 import SideNavbarItem from "./SideNavbarItem";
+import TechDropdown from "./TechDropdown";
 
 const SideNavbar = () => {
   const router = useRouter();
@@ -35,6 +36,7 @@ const SideNavbar = () => {
           currentPath={currentPath}
         />
       ))}
+      <TechDropdown />
     </div>
   );
 };
