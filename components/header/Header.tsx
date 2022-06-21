@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { PencilIcon, BellIcon } from "@heroicons/react/solid";
 import { BackspaceIcon } from "@heroicons/react/outline";
-import Avatar from "./Avatar";
 import SideNavbarItem from "../navbar/SideNavbarItem";
 import Link from "next/link";
 import { discoverItems, exploreItems } from "../shared/nav_items";
 import { useRouter } from "next/router";
+import Button from "../shared/Button";
 
 const Header = () => {
   const router = useRouter();
@@ -33,7 +33,8 @@ const Header = () => {
           <div className="flex items-center">
             <BellIcon className="nav-icon text-white mx-2" />
             <PencilIcon className="nav-icon text-white mx-2" />
-            {/* <Avatar /> */}
+            {/* Login */}
+            <Button title="Login" className="lg:text-md font-normal" />
           </div>
         </div>
       </div>

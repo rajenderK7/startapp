@@ -13,10 +13,6 @@ export const discoverItems: SideNavbarItemI[] = [
     link: "popular",
   },
   {
-    title: "Most upvoted",
-    link: "most-upvoted",
-  },
-  {
     title: "Recents",
     link: "recents",
   },

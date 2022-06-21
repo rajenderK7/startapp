@@ -1,10 +1,10 @@
 import React from "react";
-import Button from "../shared/Button";
+import PostButtonLink from "../shared/PostButtonLink";
 
 const Rightbar = () => {
   return (
-    <div className="relative p-6 h-screen flex-col hidden lg:flex left-auto max-w-[19rem] w-full overflow-y-auto">
-      <Button title="Post starter" />
+    <div className="h-screen hidden lg:flex lg:p-6 left-auto max-w-[19rem] w-full overflow-y-auto">
+      <PostButtonLink />
     </div>
   );
 };
