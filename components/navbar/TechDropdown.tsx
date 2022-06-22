@@ -39,9 +39,11 @@ const TechDropdown = () => {
       >
         {techs.map((item, index) => {
           return (
-            <div className="border-t border-b border-l border-slate-700 rounded-l-md my-2">
+            <div
+              key={index}
+              className="border-t border-b border-l border-slate-700 rounded-l-md my-2"
+            >
               <SideNavbarItem
-                key={index}
                 title={item.title}
                 link={item.link}
                 isTech={item.isTech}
