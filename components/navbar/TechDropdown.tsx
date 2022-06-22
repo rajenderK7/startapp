@@ -25,13 +25,10 @@ const TechDropdown = () => {
   ];
 
   return (
-    <div>
+    <div className="cursor-pointer" onClick={() => setDropdown(!dropdown)}>
       <div className="font-semibold py-2 lg:text-[14px] nav-heading flex justify-between items-center text-slate-200 ml-4">
         Top tech
-        <div
-          onClick={() => setDropdown(!dropdown)}
-          className="h-5 w-5 mr-2 transition-all ease-in duration-100 cursor-pointer"
-        >
+        <div className="h-5 w-5 mr-2 transition-all ease-in duration-100 cursor-pointer">
           {!dropdown ? <ChevronDownIcon /> : <ChevronUpIcon />}
         </div>
       </div>
