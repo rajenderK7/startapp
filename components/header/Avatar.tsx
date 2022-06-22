@@ -1,13 +1,63 @@
-import Image from "next/image";
-import React from "react";
+import * as React from "react";
+import Button from "@mui/material/Button";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import toast from "react-hot-toast";
+import { auth } from "../../lib/firebase/firebase";
 
-const Avatar = () => {
+interface AvatarI {
+  profileURL: string | undefined | null;
+  title: string;
+}
+
+const Avatar = ({ profileURL, title }: AvatarI) => {
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleSignOut = async () => {
+    try {
+      handleClose();
+      await auth.signOut();
+    } catch (err) {
+      toast.error("something went weong... 😥");
+    }
+  };
+
   return (
-    <img
-      src="https://www.pixsy.com/wp-content/uploads/2021/04/ben-sweet-2LowviVHZ-E-unsplash-1.jpeg"
-      width="80px"
-      style={{ margin: "0px", padding: "0px" }}
-    />
+    <div>
+      <Button
+        id="basic-button"
+        aria-controls={open ? "basic-menu" : undefined}
+        aria-haspopup="true"
+        aria-expanded={open ? "true" : undefined}
+        onClick={handleClick}
+      >
+        <img
+          className="rounded-lg object-cover h-[30px] w-[30px]"
+          src={profileURL ?? ""}
+          alt={title}
+        />
+      </Button>
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        MenuListProps={{
+          "aria-labelledby": "basic-button",
+        }}
+      >
+        {/* <MenuItem onClick={handleClose}>My account</MenuItem> */}
+        <MenuItem onClick={handleClose}>Profile</MenuItem>
+        <MenuItem onClick={handleSignOut}>Logout</MenuItem>
+      </Menu>
+    </div>
   );
 };
 

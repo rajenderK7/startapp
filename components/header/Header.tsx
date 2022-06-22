@@ -6,6 +6,8 @@ import Link from "next/link";
 import { discoverItems, exploreItems } from "../shared/nav_items";
 import { useRouter } from "next/router";
 import Button from "../shared/Button";
+import useUserData from "../../lib/hooks/userDataHook";
+import Avatar from "./Avatar";
 
 const Header = () => {
   const router = useRouter();
@@ -14,9 +16,11 @@ const Header = () => {
 
   const [currentPath, setCurrentPath] = useState("");
 
+  const { user, username } = useUserData();
+
   useEffect(() => {
     setCurrentPath(pathname.replace("/", ""));
-  }, [pathname]);
+  }, [pathname, user, username]);
 
   return (
     <>
@@ -31,10 +35,20 @@ const Header = () => {
 
           {/* Actions */}
           <div className="flex items-center">
-            <BellIcon className="nav-icon text-white mx-2" />
-            <PencilIcon className="nav-icon text-white mx-2" />
+            <BellIcon className="nav-icon text-white ml-2" />
+            <PencilIcon className="nav-icon text-white ml-2" />
             {/* Login */}
-            <Button title="Login" className="lg:text-md font-normal" />
+            {(!user || !username) && (
+              <Button
+                title="Login"
+                className="ml-2 lg:m-0 lg:text-md font-normal"
+                onClick={() => router.push("/login")}
+              />
+            )}
+            {/* if user is logged in */}
+            {user && username && (
+              <Avatar title={username} profileURL={user.photoURL} />
+            )}
           </div>
         </div>
       </div>
