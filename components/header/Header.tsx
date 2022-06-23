@@ -41,7 +41,7 @@ const Header = () => {
             {(!user || !username) && (
               <Button
                 title="Login"
-                className="ml-2 lg:m-0 lg:text-md font-normal"
+                className="ml-2 lg:ml-3 lg:m-0 lg:text-md font-normal"
                 onClick={() => router.push("/login")}
               />
             )}

@@ -1,4 +1,5 @@
 import React from "react";
+import Post from "../post/Post";
 import Button from "../shared/Button";
 import Search from "./Search";
 
@@ -15,6 +16,8 @@ const Feed = () => {
           <Button title="Post" />
         </div>
       </div>
+      {/* Content */}
+      <Post />
     </div>
   );
 };

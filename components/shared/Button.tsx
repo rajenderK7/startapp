@@ -16,7 +16,7 @@ const Button = ({ type, title, onClick, className, disabled }: ButtonI) => {
       className={
         `${
           disabled ? "bg-gray-400" : "app-color"
-        } min-w-[60px] text-sm lg:text-lg py-1 h-auto min-h-[24px] lg:h-8 font-semibold rounded-md px-2 text-white flex items-center justify-center` +
+        } min-w-[60px] text-sm lg:text-base py-1 h-auto min-h-[24px] lg:h-8 rounded-md px-2 text-white flex items-center justify-center` +
         " " +
         className
       }
