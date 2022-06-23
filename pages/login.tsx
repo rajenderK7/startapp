@@ -118,7 +118,7 @@ const UsernameForm = () => {
       </h1>
       <form className="w-full" onSubmit={handleSubmit}>
         <div className="shadow overflow-hidden rounded-md">
-          <div className="p-3 bg-white sm:p-6 w-full">
+          <div className="p-3 bg-slate-100 sm:p-6 w-full">
             <label
               htmlFor="first-name"
               className="text-sm font-medium text-black"
@@ -131,7 +131,7 @@ const UsernameForm = () => {
               id="first-name"
               autoComplete="given-name"
               onChange={handleFormValue}
-              className="mt-1 py-2 block w-full shadow-sm rounded-md outline-none"
+              className="mt-1 p-2 block w-full shadow-md rounded-md outline-none bg-white border border-black"
             />
             {isValid && loading === false ? (
               <h3 className="text-green-600 text-sm rounded mt-1">{`${formValue} is available`}</h3>
@@ -141,7 +141,7 @@ const UsernameForm = () => {
               )
             )}
             <Button
-              className="mt-2"
+              className="mt-3"
               title="Choose"
               type="submit"
               disabled={!isValid}

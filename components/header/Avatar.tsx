@@ -4,6 +4,7 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import toast from "react-hot-toast";
 import { auth } from "../../lib/firebase/firebase";
+import { Router, useRouter } from "next/router";
 
 interface AvatarI {
   profileURL: string | undefined | null;
@@ -11,6 +12,7 @@ interface AvatarI {
 }
 
 const Avatar = ({ profileURL, title }: AvatarI) => {
+  const router = useRouter();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -27,6 +29,11 @@ const Avatar = ({ profileURL, title }: AvatarI) => {
     } catch (err) {
       toast.error("something went weong... 😥");
     }
+  };
+
+  const handleProfileButton = () => {
+    handleClose();
+    router.push("/profile");
   };
 
   return (
@@ -53,8 +60,7 @@ const Avatar = ({ profileURL, title }: AvatarI) => {
           "aria-labelledby": "basic-button",
         }}
       >
-        {/* <MenuItem onClick={handleClose}>My account</MenuItem> */}
-        <MenuItem onClick={handleClose}>Profile</MenuItem>
+        <MenuItem onClick={handleProfileButton}>Profile</MenuItem>
         <MenuItem onClick={handleSignOut}>Logout</MenuItem>
       </Menu>
     </div>
