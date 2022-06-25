@@ -9,7 +9,7 @@ const Layout = ({ children }: Props) => {
   return (
     <div className="max-w-7xl mx-auto flex">
       <SideNavbar />
-      <div className="relative mx-auto lg:ml-[165px] p-3 lg:p-0 w-full flex items-start justify-center">
+      <div className="relative mx-auto lg:ml-[165px] px-3 lg:p-0 w-full flex">
         {children}
       </div>
     </div>

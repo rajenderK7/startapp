@@ -60,7 +60,7 @@ const Avatar = ({ profileURL, title }: AvatarI) => {
           "aria-labelledby": "basic-button",
         }}
       >
-        <MenuItem onClick={handleProfileButton}>Profile</MenuItem>
+        <MenuItem onClick={handleClose}>Profile</MenuItem>
         <MenuItem onClick={handleSignOut}>Logout</MenuItem>
       </Menu>
     </div>
