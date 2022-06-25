@@ -28,4 +28,8 @@
   .nav-heading {
     @apply text-[#A0A4AB];
   }
+
+  .vote-button {
+    @apply text-white cursor-pointer hover:scale-125 hover:app-color-text h-8 w-8;
+  }
 }
