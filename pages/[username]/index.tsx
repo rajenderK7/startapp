@@ -1,24 +1,28 @@
+import { collection, getDoc, getDocs, query, where } from "firebase/firestore";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import Image from "next/image";
 import React from "react";
 import Post from "../../components/post/Post";
+import { db } from "../../lib/firebase/firebase";
 import { getUserByUsername } from "../../lib/services/getUserRef";
+import postToJSON from "../../lib/services/postToJSON";
 import PostModel from "../../models/PostModel";
 
 // TODO: Add meta tags
 
-const post: PostModel = {
-  uid: "",
-  desc: "",
-  photoURL: "",
-  username: "",
-  title: "",
-  votes: 12,
-  resourceLinks: [],
-};
+// const post: PostModel = {
+//   uid: "",
+//   desc: "",
+//   photoURL: "",
+//   username: "",
+//   title: "",
+//   votes: 12,
+//   resourceLinks: [],
+// };
 
 const Profile = ({
   user,
+  posts,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   return (
     <div className="flex items-center flex-col w-full p-3">
@@ -37,21 +41,25 @@ const Profile = ({
       <div className="flex flex-col w-full  max-w-[50rem] ">
         <p className="text-sm text-slate-200">Posts</p>
         {/* Posts by the user */}
-        <Post />
-        <Post />
-        <Post />
+        {posts.map((post: PostModel) => {
+          return <Post {...post} key={post.uid} />;
+        })}
       </div>
     </div>
   );
 };
 
 // SSR
-export const getServerSideProps: GetServerSideProps = async ({ query }) => {
-  const { username } = query;
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const { username } = context.query;
 
   const userDoc = await getUserByUsername(username);
 
   const user = userDoc?.data();
+
+  const q = query(collection(db, "posts"), where("username", "==", username));
+
+  const posts = (await getDocs(q)).docs.map(postToJSON);
 
   if (!user) {
     return {
@@ -62,6 +70,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   return {
     props: {
       user,
+      posts,
     },
   };
 };

@@ -1,11 +1,8 @@
 import React from "react";
+import JSXProps from "../interfaces/JSXProps";
 import SideNavbar from "./navbar/SideNavbar";
 
-type Props = {
-  children?: JSX.Element | JSX.Element[];
-};
-
-const Layout = ({ children }: Props) => {
+const Layout = ({ children }: JSXProps) => {
   return (
     <div className="max-w-7xl mx-auto flex">
       <SideNavbar />

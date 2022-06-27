@@ -1,4 +1,4 @@
-import { SideNavbarItemI } from "../navbar/SideNavbarItem";
+import { SideNavbarItemI } from "./navbar/SideNavbarItem";
 
 export const exploreItems: SideNavbarItemI[] = [
   {
