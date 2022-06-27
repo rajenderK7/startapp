@@ -1,10 +1,12 @@
-import * as React from "react";
+import React, { useContext } from "react";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import toast from "react-hot-toast";
 import { auth } from "../../lib/firebase/firebase";
-import { Router, useRouter } from "next/router";
+import { useRouter } from "next/router";
+import Image from "next/image";
+import UserContext from "../../lib/contexts/userContext";
 
 interface AvatarI {
   profileURL: string | undefined | null;
@@ -13,6 +15,7 @@ interface AvatarI {
 
 const Avatar = ({ profileURL, title }: AvatarI) => {
   const router = useRouter();
+  const { username } = useContext(UserContext);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -33,7 +36,7 @@ const Avatar = ({ profileURL, title }: AvatarI) => {
 
   const handleProfileButton = () => {
     handleClose();
-    router.push("/profile");
+    router.push(`/${username}`);
   };
 
   return (
@@ -45,11 +48,15 @@ const Avatar = ({ profileURL, title }: AvatarI) => {
         aria-expanded={open ? "true" : undefined}
         onClick={handleClick}
       >
-        <img
-          className="rounded-lg object-cover h-[30px] w-[30px]"
-          src={profileURL ?? ""}
-          alt={title}
-        />
+        <div className="relative object-cover h-[30px] w-[30px]">
+          <Image
+            className="rounded-lg"
+            src={profileURL ?? ""}
+            alt={title}
+            objectFit="contain"
+            layout="fill"
+          />
+        </div>
       </Button>
       <Menu
         id="basic-menu"
@@ -60,7 +67,7 @@ const Avatar = ({ profileURL, title }: AvatarI) => {
           "aria-labelledby": "basic-button",
         }}
       >
-        <MenuItem onClick={handleClose}>Profile</MenuItem>
+        <MenuItem onClick={handleProfileButton}>Profile</MenuItem>
         <MenuItem onClick={handleSignOut}>Logout</MenuItem>
       </Menu>
     </div>

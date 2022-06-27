@@ -18,14 +18,6 @@ const Feed = () => {
       </div>
       {/* Content */}
       <Post />
-      <Post />
-      <Post />
-      <Post />
-      <Post />
-      <Post />
-      <Post />
-      <Post />
-      <Post />
     </div>
   );
 };

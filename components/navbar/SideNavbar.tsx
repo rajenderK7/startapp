@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import { discoverItems, exploreItems } from "../shared/nav_items";
+import { discoverItems, exploreItems } from "../nav_items";
 import SideNavbarHeading from "./SideNavbarHeading";
 import SideNavbarItem from "./SideNavbarItem";
 import TechDropdown from "./TechDropdown";

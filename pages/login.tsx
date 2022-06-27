@@ -105,6 +105,7 @@ const UsernameForm = () => {
         await batch.commit();
 
         toast.success("Let's go...🚀");
+        router.back();
       }
     } catch (err) {
       toast.error("Something went wrong... 😥");
@@ -113,7 +114,7 @@ const UsernameForm = () => {
 
   return (
     <div className="mt-2 w-full lg:w-[500px] flex flex-col items-center justify-center">
-      <h1 className="mb-4 text-white font-extrabold">
+      <h1 className="mb-4 text-white font-semibold">
         Let's just pick a username and fly off!! 💥
       </h1>
       <form className="w-full" onSubmit={handleSubmit}>
@@ -158,7 +159,7 @@ const Login = () => {
 
   return (
     <div className="flex flex-col w-full mx-auto items-center mt-4 justify-center">
-      <h1 className="font-bold space-x-1 text-white">Join Startapp 😍</h1>
+      <h1 className="font-semibold space-x-1 text-white">Join Startapp 😍</h1>
       <div className="my-4">
         {user ? (
           !username ? (

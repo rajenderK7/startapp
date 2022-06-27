@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { PencilIcon, BellIcon } from "@heroicons/react/solid";
 import { BackspaceIcon } from "@heroicons/react/outline";
 import SideNavbarItem from "../navbar/SideNavbarItem";
 import Link from "next/link";
-import { discoverItems, exploreItems } from "../shared/nav_items";
+import { discoverItems, exploreItems } from "../nav_items";
 import { useRouter } from "next/router";
 import Button from "../shared/Button";
 import useUserData from "../../lib/hooks/userDataHook";
 import Avatar from "./Avatar";
+import UserContext from "../../lib/contexts/userContext";
 
 const Header = () => {
   const router = useRouter();
@@ -16,7 +17,7 @@ const Header = () => {
 
   const [currentPath, setCurrentPath] = useState("");
 
-  const { user, username } = useUserData();
+  const { user, username } = useContext(UserContext);
 
   useEffect(() => {
     setCurrentPath(pathname.replace("/", ""));

@@ -4,7 +4,7 @@ import Button from "./Button";
 
 const PostButtonLink = () => {
   return (
-    <Link href="/write-post">
+    <Link href="/create">
       <a>
         <Button title="Post" />
       </a>
