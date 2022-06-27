@@ -78,8 +78,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const username = context.params?.username;
   const postID = context.params?.postID;
 
-  console.log(username, postID);
-
   if (!postID) {
     return {
       notFound: true,
