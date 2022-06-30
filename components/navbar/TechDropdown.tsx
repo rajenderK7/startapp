@@ -35,14 +35,11 @@ const TechDropdown = () => {
       <div
         className={`${
           dropdown ? "" : "hidden"
-        } transition-all duration-700 ease-out`}
+        } transition-all duration-700 ease-out flex-col items-center mr-1`}
       >
         {techs.map((item, index) => {
           return (
-            <div
-              key={index}
-              className="border-t border-b border-l border-slate-700 rounded-l-md my-2"
-            >
+            <div key={index} className="bg-white rounded my-2">
               <SideNavbarItem
                 title={item.title}
                 link={item.link}

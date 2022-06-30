@@ -29,6 +29,7 @@ const Avatar = ({ profileURL, title }: AvatarI) => {
     try {
       handleClose();
       await auth.signOut();
+      router.replace(`/`);
     } catch (err) {
       toast.error("something went weong... 😥");
     }

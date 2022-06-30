@@ -1,4 +1,11 @@
-import { doc, getDoc, serverTimestamp, updateDoc } from "firebase/firestore";
+import {
+  deleteDoc,
+  doc,
+  getDoc,
+  serverTimestamp,
+  Timestamp,
+  updateDoc,
+} from "firebase/firestore";
 import { useRouter } from "next/router";
 import React, { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -11,7 +18,8 @@ import {
 import PostModel from "../../models/PostModel";
 import toast from "react-hot-toast";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
-import UserContext from "../../lib/contexts/userContext";
+import UserContext, { UserContextI } from "../../lib/contexts/userContext";
+import Button from "../../components/shared/Button";
 
 const EditPost = () => {
   return (
@@ -23,13 +31,11 @@ const EditPost = () => {
   );
 };
 
-const PostManager = () => {};
-
 const EditForm = () => {
+  const { user, username } = useContext(UserContext);
+
   const router = useRouter();
   const { slug } = router.query;
-
-  const { user, username } = useContext(UserContext);
 
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -54,6 +60,15 @@ const EditForm = () => {
     reset({ ...post });
   }, [post]);
 
+  // return if the Auth check is bypassed.
+  if (post?.username !== username) {
+    return (
+      <p className="text-white mx-auto my-10 font-semibold text-lg">
+        Bad state
+      </p>
+    );
+  }
+
   const handleUploadImg = (e: any) => {
     const reader = new FileReader();
     if (e.target.files[0]) {
@@ -67,6 +82,8 @@ const EditForm = () => {
 
   const handleFormSubmit = async (data: any) => {
     if (loading) return;
+
+    const createdAt = post?.createdAt;
 
     setLoading(true);
     try {
@@ -83,22 +100,21 @@ const EditForm = () => {
             await updateDoc(postRef, {
               ...data,
               images,
+              createdAt,
               updatedAt: serverTimestamp(),
             });
-            reset();
-            toast.success("Post created!");
-            router.replace(`/${username}/${slug}`);
           }
         );
       } else {
         await updateDoc(postRef, {
           ...data,
+          createdAt,
           updatedAt: serverTimestamp(),
         });
-        reset();
-        toast.success("Post created!");
-        router.replace(`/${username}/${slug}`);
       }
+      reset();
+      toast.success("Post created!");
+      router.replace(`/${username}/${slug}`);
     } catch (err) {
       toast.error("Something went wrong...");
     }
@@ -106,62 +122,81 @@ const EditForm = () => {
     setLoading(false);
   };
 
+  const handleDelete = async () => {
+    try {
+      await deleteDoc(postRef);
+      router.push("/profile");
+    } catch (err) {
+      toast.error("Something went wrong...");
+    }
+  };
+
   return (
-    <form onSubmit={handleSubmit(handleFormSubmit)}>
-      {/* Title */}
-      <FormLabel htmlFor="title" title="Title" />
-      {/* <textarea
+    <div className="felx-col">
+      <div className="flex flex-start w-full my-3">
+        <Button
+          title="Delete Post"
+          color="red"
+          opacity={600}
+          onClick={handleDelete}
+        />
+      </div>
+      <form onSubmit={handleSubmit(handleFormSubmit)}>
+        {/* Title */}
+        <FormLabel htmlFor="title" title="Title" />
+        {/* <textarea
         {...register("title")}
         className="mt-1 outline-none w-full border border-black bg-white rounded-md p-2 text-xl lg:text-[2.2rem] font-semibold"
         id="title"
         cols={30}
         rows={3}
       ></textarea> */}
-      <h1
-        id="title"
-        className="mt-1 mb-3 leading-10 app-color-text outline-none w-full text-xl lg:text-[2.2rem] font-semibold"
-      >
-        {post?.title}
-      </h1>
-      {/* Description */}
-      <FormLabel htmlFor="desc" title="Description" />
-      <textarea
-        {...register("desc")}
-        className="mt-1 outline-none w-full h-60 border border-black bg-white rounded-md py-1 px-2 lg:text-lg"
-        id="desc"
-        cols={100}
-        rows={3}
-      ></textarea>
-      {/* Upload Img */}
-      <div className="flex flex-col items-start">
-        <FormLabel htmlFor="desc" title="Upload Images" />
-        <label className="app-color py-1 px-2 mt-1 rounded-md text-white cursor-pointer">
-          Upload
-          <input
-            // {...register("uploadImg")}
-            name="uploadImg"
-            type="file"
-            id="uploadImg"
-            multiple
-            accept="image/x-png,image/gif,image/jpeg"
-            className="hidden"
-            onChange={handleUploadImg}
-          />
-        </label>
-      </div>
-      <fieldset className="flex items-center space-x-2 mt-2">
-        <input id="publish" type="checkbox" {...register("published")} />
-        <FormLabel title="Publish" htmlFor="publish" />
-      </fieldset>
-      <hr className="mt-3" />
-      <button
-        type="submit"
-        disabled={loading}
-        className="mt-2 bg-green-500 px-2 py-1 lg:p-2 rounded-md text-white font-semibold"
-      >
-        Save changes
-      </button>
-    </form>
+        <h1
+          id="title"
+          className="mt-1 mb-3 leading-10 app-color-text outline-none w-full text-xl lg:text-[2.2rem] font-semibold"
+        >
+          {post?.title}
+        </h1>
+        {/* Description */}
+        <FormLabel htmlFor="desc" title="Description" />
+        <textarea
+          {...register("desc")}
+          className="mt-1 outline-none w-full h-60 border border-black bg-white rounded-md py-1 px-2 lg:text-lg"
+          id="desc"
+          cols={100}
+          rows={3}
+        ></textarea>
+        {/* Upload Img */}
+        <div className="flex flex-col items-start">
+          <FormLabel htmlFor="desc" title="Upload Images" />
+          <label className="app-color py-1 px-2 mt-1 rounded-md text-white cursor-pointer">
+            Upload
+            <input
+              // {...register("uploadImg")}
+              name="uploadImg"
+              type="file"
+              id="uploadImg"
+              multiple
+              accept="image/x-png,image/gif,image/jpeg"
+              className="hidden"
+              onChange={handleUploadImg}
+            />
+          </label>
+        </div>
+        <fieldset className="flex items-center space-x-2 mt-2">
+          <input id="publish" type="checkbox" {...register("published")} />
+          <FormLabel title="Publish" htmlFor="publish" />
+        </fieldset>
+        <hr className="mt-3" />
+        <button
+          type="submit"
+          disabled={loading}
+          className="mt-2 bg-green-500 px-2 py-1 lg:p-2 rounded-md text-white font-semibold"
+        >
+          Save changes
+        </button>
+      </form>
+    </div>
   );
 };
 

@@ -25,8 +25,8 @@ const Home: NextPage = ({
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   return (
     <>
-      <div className="items-start max-w-[50rem] h-screen w-full flex">
-        <div className="h-screen flex-col w-full lg:p-6 ">
+      <div className="page-container">
+        <div className="h-screen flex-col w-full">
           <div className="flex items-center mx-auto mb-4 space-x-2">
             <div className="flex-1">
               {/* Search */}

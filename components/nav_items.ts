@@ -12,8 +12,4 @@ export const discoverItems: SideNavbarItemI[] = [
     title: "Popular",
     link: "popular",
   },
-  {
-    title: "Recents",
-    link: "recents",
-  },
 ];

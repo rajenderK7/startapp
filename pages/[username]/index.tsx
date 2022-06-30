@@ -33,6 +33,7 @@ const Profile = ({
           layout="fill"
           objectFit="cover"
           alt={user?.username}
+          priority
         />
       </div>
       <h1 className="text-black bg-white shadow-white p-1 rounded-md text-base lg:font-lg mb-2">
@@ -42,7 +43,7 @@ const Profile = ({
         <p className="text-sm text-slate-200">Posts</p>
         {/* Posts by the user */}
         {posts.map((post: PostModel) => {
-          return <Post {...post} key={post.uid} />;
+          return <Post {...post} key={post.postID} />;
         })}
       </div>
     </div>
