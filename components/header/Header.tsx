@@ -36,8 +36,11 @@ const Header = () => {
 
           {/* Actions */}
           <div className="flex items-center">
-            <BellIcon className="nav-icon text-white ml-2" />
-            <PencilIcon className="nav-icon text-white ml-2" />
+            {/* Create Post shortcut */}
+            <PencilIcon
+              onClick={() => router.push("/create")}
+              className="nav-icon text-white ml-2"
+            />
             {/* Login */}
             {(!user || !username) && (
               <Button

@@ -21,8 +21,10 @@ const SideNavbarItem = ({
           currentPath === link && !isTech
             ? "lg:app-color text-white"
             : "text-slate-400"
-        } lg:hover:text-slate-200 duration-100 ease-in transition-all text-[14px] h-8 ${
-          isTech ? "" : "my-2"
+        } ${
+          isTech ? "" : "lg:hover:text-slate-200"
+        } duration-100 ease-in transition-all text-[14px] h-8 ${
+          isTech ? "text-black" : "my-2"
         } lg:py-3 flex items-center rounded-l-md lg:pl-4 cursor-pointer`}
       >
         {title}

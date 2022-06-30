@@ -33,7 +33,7 @@ const CreatePost = () => {
       return;
     }
 
-    const post: PostModel = {
+    const post = {
       uid: user?.uid,
       postID,
       title,

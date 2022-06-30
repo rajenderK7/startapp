@@ -1,13 +1,16 @@
-import dayjs from "dayjs";
+import dayjs, { locale } from "dayjs";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import { format } from "timeago.js";
 import PostModel from "../../models/PostModel";
 
 // TODO: Add formatted date
 // TODO: Remove hard coded images
 
 const Post = (post: PostModel) => {
+  const createdAt = format(post.createdAt);
+
   return (
     <div className="w-full flex bg-black rounded-md my-3 shadow-md">
       {/* Votes column */}
@@ -32,7 +35,7 @@ const Post = (post: PostModel) => {
           <p className="app-color-text text-xs">
             <span className="text-slate-200">by</span> {post?.username}
           </p>
-          <p className="text-slate-200 text-xs">{"on Mar 27, 2011"}</p>
+          <p className="text-slate-200 text-xs">{createdAt}</p>
         </div>
       </div>
       {/* Actions column (img, username) */}
@@ -63,7 +66,7 @@ const Post = (post: PostModel) => {
                 {post?.username}
               </p>
             </Link>
-            <p className="text-slate-200 text-[10px]">{post?.createdAt}</p>
+            <p className="text-slate-200 text-[10px]">{createdAt}</p>
           </div>
         </section>
       </div>

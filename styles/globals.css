@@ -9,6 +9,10 @@
 }
 
 @layer components {
+  .page-container {
+    @apply items-start max-w-[50rem] w-full flex  lg:p-6;
+  }
+
   .app-color {
     @apply bg-[#0055FF];
   }

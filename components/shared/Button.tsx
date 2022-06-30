@@ -11,14 +11,23 @@ interface ButtonI {
   opacity?: number;
 }
 
-const Button = ({ type, title, onClick, className, disabled }: ButtonI) => {
+const Button = ({
+  type,
+  title,
+  onClick,
+  className,
+  disabled,
+  color,
+  opacity,
+}: ButtonI) => {
   return (
     <button
       type={type ?? undefined}
       onClick={onClick}
       className={
-        `${disabled ? "bg-gray-400" : "app-color"} 
-        min-w-[60px] text-sm lg:text-base py-1 h-auto min-h-[24px] lg:h-8 rounded-md px-2 text-white flex items-center justify-center` +
+        `${disabled ? "bg-gray-400" : "app-color"}
+        ${color === "red" ? "bg-red-600" : "app-color"}
+        min-w-[60px] text-sm lg:text-base py-1 h-auto min-h-[24px] lg:h-8 rounded-md px-2 red- text-white flex items-center justify-center` +
         " " +
         className
       }

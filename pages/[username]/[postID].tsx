@@ -9,14 +9,43 @@ import {
 } from "firebase/firestore";
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from "next";
 import Link from "next/link";
-import React from "react";
+import React, { useContext } from "react";
+import { format } from "timeago.js";
+import { AuthCheck } from "../../components";
 import Button from "../../components/shared/Button";
+import UserContext from "../../lib/contexts/userContext";
 import { db } from "../../lib/firebase/firebase";
 import postToJSON from "../../lib/services/postToJSON";
 
+interface SideHeaderI {
+  title: string;
+  className?: string;
+}
+
+const SideHeader = ({ title, className }: SideHeaderI) => {
+  return <h2 className={"text-white text-sm " + className}>{title}</h2>;
+};
+
 const Post = ({ post }: InferGetStaticPropsType<typeof getStaticProps>) => {
+  const createdAt = format(post.createdAt);
+  const updatedAt = format(post.updatedAt);
+  const { username } = useContext(UserContext);
+
   return (
     <div className="flex flex-col w-full mx-auto items-start px-1 lg:px-5 h-screen">
+      <AuthCheck fallback={<></>}>
+        {post?.username === username ? (
+          <div className="flex lg:mt-4">
+            <Link href={`/create/${post?.postID}`}>
+              <a>
+                <Button title="Edit ✏️" />
+              </a>
+            </Link>
+          </div>
+        ) : (
+          <></>
+        )}
+      </AuthCheck>
       <div className="mb-3 w-full">
         {/* Question Header */}
         <div className="flex space-x-2 lg:mt-4 items-center">
@@ -37,29 +66,38 @@ const Post = ({ post }: InferGetStaticPropsType<typeof getStaticProps>) => {
           <h1 className="text-white text-[20px] lg:text-3xl">{post?.title}</h1>
         </div>
         {/* Author information */}
-        <div className="flex justify-between w-full text-slate-400">
+        <div className="lg:flex justify-between w-full text-slate-400">
           <p>
             by{" "}
             <Link href={`/${post?.username}`}>
-              <a className="app-color-text">{post?.username}</a>
+              <a className="app-color-text font-medium">{post?.username}</a>
             </Link>
           </p>
-          <p>
-            Posted on <span className="text-white">{post?.createdAt}</span>
-          </p>
+          <div className="flex space-x-2">
+            <p className="text-sm">
+              Posted: <span className="text-white">{createdAt}</span>
+            </p>
+            <p className="text-sm">
+              Updated: <span className="text-white">{updatedAt}</span>
+            </p>
+          </div>
         </div>
       </div>
       {/* Description */}
       <div className="flex flex-col">
-        <h2 className="text-semibold text-sm text-white mb-1">Description</h2>
+        <SideHeader title="Description" className="mb-1" />
         <p className="text-slate-300">{post?.desc}</p>
       </div>
       {/* Images */}
       <div className="my-2">
-        <h2 className="text-semibold text-sm text-white">Images</h2>
+        <SideHeader title="Images" />
         <div className="relative mt-2">
           <img
-            src="https://miro.medium.com/max/798/1*LU5XQiGYjh60e6njVqEDoQ.png"
+            src={
+              post?.images[0] ??
+              "https://miro.medium.com/max/798/1*LU5XQiGYjh60e6njVqEDoQ.png"
+            }
+            // src="https://miro.medium.com/max/798/1*LU5XQiGYjh60e6njVqEDoQ.png"
             className="object-contain max-h-[300px]"
           />
         </div>
@@ -68,7 +106,7 @@ const Post = ({ post }: InferGetStaticPropsType<typeof getStaticProps>) => {
       <Button title="Download" className="my-2" />
       {/* Comments */}
       <div>
-        <h2 className="text-semibold text-white">Comments</h2>
+        <SideHeader title="Comments" />
       </div>
     </div>
   );
@@ -96,7 +134,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
   };
 };
 
-export const getStaticPaths: GetStaticPaths = async ({}) => {
+export const getStaticPaths: GetStaticPaths = async () => {
   const postsQuery = query(collection(db, "posts"), limit(10));
 
   const posts = await getDocs(postsQuery);

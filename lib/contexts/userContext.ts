@@ -1,7 +1,7 @@
 import { createContext } from "react";
 import type { User } from "firebase/auth";
 
-interface UserContextI {
+export interface UserContextI {
   user: User | undefined | null;
   username: string | null;
 }
