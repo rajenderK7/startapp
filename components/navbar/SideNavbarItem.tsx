@@ -18,14 +18,12 @@ const SideNavbarItem = ({
     <Link href={`/${link}`}>
       <a
         className={`${
-          currentPath === link && !isTech
+          currentPath === link
             ? "lg:app-color text-white"
-            : "text-slate-400"
-        } ${
-          isTech ? "" : "lg:hover:text-slate-200"
-        } duration-100 ease-in transition-all text-[14px] h-8 ${
-          isTech ? "text-black" : "my-2"
-        } lg:py-3 flex items-center rounded-l-md lg:pl-4 cursor-pointer`}
+            : !isTech
+            ? "text-slate-300 hover:text-white"
+            : "text-black my-2"
+        } duration-100 ease-in transition-all text-[14px] h-8 lg:py-3 flex items-center rounded-l-md lg:pl-4 cursor-pointer`}
       >
         {title}
       </a>

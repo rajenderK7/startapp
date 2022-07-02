@@ -24,7 +24,7 @@ const Search = () => {
   return (
     <form
       onSubmit={handleSubmit(onSubmitHandler)}
-      className="flex items-center bg-white px-2 rounded-[28px] mx-auto w-full md:max-w-[400px] lg:max-w-xl lg:w-full"
+      className="flex items-center bg-white px-2 rounded-[28px] mx-auto w-full md:max-w-[400px] lg:max-w-xl"
     >
       <SearchIcon className="icon" />
       <input

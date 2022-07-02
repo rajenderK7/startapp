@@ -5,7 +5,7 @@ type PostModel = {
   postID: string;
   title: string;
   desc: string;
-  images?: string[];
+  images: string[];
   username: string;
   photoURL: string;
   votes: number;
