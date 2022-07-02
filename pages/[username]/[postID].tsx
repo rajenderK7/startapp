@@ -10,9 +10,12 @@ import {
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from "next";
 import Link from "next/link";
 import React, { useContext } from "react";
+import { useDocumentData } from "react-firebase-hooks/firestore";
 import { format } from "timeago.js";
 import { AuthCheck } from "../../components";
 import Button from "../../components/shared/Button";
+import VoteButton from "../../components/VoteButton";
+import VoteDummy from "../../components/VoteDummy";
 import UserContext from "../../lib/contexts/userContext";
 import { db } from "../../lib/firebase/firebase";
 import postToJSON from "../../lib/services/postToJSON";
@@ -23,13 +26,20 @@ interface SideHeaderI {
 }
 
 const SideHeader = ({ title, className }: SideHeaderI) => {
-  return <h2 className={"text-white text-sm " + className}>{title}</h2>;
+  return <h2 className={"text-slate-400 text-sm " + className}>{title}</h2>;
 };
 
-const Post = ({ post }: InferGetStaticPropsType<typeof getStaticProps>) => {
-  const createdAt = format(post.createdAt);
-  const updatedAt = format(post.updatedAt);
-  const { username } = useContext(UserContext);
+const Post = ({
+  postData,
+  path,
+}: InferGetStaticPropsType<typeof getStaticProps>) => {
+  const createdAt = format(postData.createdAt);
+  const updatedAt = format(postData.updatedAt);
+  const { user, username } = useContext(UserContext);
+
+  const [realtimeData] = useDocumentData(doc(db, path));
+
+  const post = realtimeData || postData;
 
   return (
     <div className="flex flex-col w-full mx-auto items-start px-1 lg:px-5 h-screen">
@@ -51,16 +61,31 @@ const Post = ({ post }: InferGetStaticPropsType<typeof getStaticProps>) => {
         <div className="flex space-x-2 lg:mt-4 items-center">
           {/* Votes column */}
           <div className=" flex flex-col max-w-[100px] justify-center items-center">
-            <ChevronUpIcon
-              onClick={() => {}}
-              className="text-white cursor-pointer hover:scale-125 hover:app-color-text h-8 w-8"
-            />
-            {/* Votes */}
-            <h2 className="text-white font-bold text-lg">{post.votes}</h2>
-            <ChevronDownIcon
-              onClick={() => {}}
-              className="text-white cursor-pointer hover:scale-125 hover:app-color-text h-8 w-8"
-            />
+            {username && user ? (
+              <>
+                {/* Up vote */}
+                <VoteButton
+                  upVote={true}
+                  postRef={post?.postID}
+                  votes={post?.votes}
+                />
+                {/* Votes */}
+                <h2 className="text-white font-bold text-lg">{post.votes}</h2>
+                {/* Down vote */}
+                <VoteButton
+                  upVote={false}
+                  postRef={post?.postID}
+                  votes={post?.votes}
+                />
+              </>
+            ) : (
+              <>
+                <VoteDummy upVote={true} />
+                {/* Votes */}
+                <h2 className="text-white font-bold text-lg">{post.votes}</h2>
+                <VoteDummy upVote={false} />
+              </>
+            )}
           </div>
           {/* Title */}
           <h1 className="text-white text-[20px] lg:text-3xl">{post?.title}</h1>
@@ -82,24 +107,27 @@ const Post = ({ post }: InferGetStaticPropsType<typeof getStaticProps>) => {
             </p>
           </div>
         </div>
+        <hr className="border-gray-500 mt-4" />
       </div>
       {/* Description */}
       <div className="flex flex-col">
         <SideHeader title="Description" className="mb-1" />
-        <p className="text-slate-300">{post?.desc}</p>
+        <p className="text-slate-200">{post?.desc}</p>
       </div>
       {/* Images */}
-      <div className="my-2">
+      <div className="my-2 w-full">
         <SideHeader title="Images" />
-        <div className="relative mt-2">
-          <img
-            src={
-              post?.images[0] ??
-              "https://miro.medium.com/max/798/1*LU5XQiGYjh60e6njVqEDoQ.png"
-            }
-            // src="https://miro.medium.com/max/798/1*LU5XQiGYjh60e6njVqEDoQ.png"
-            className="object-contain max-h-[300px]"
-          />
+        <div className="">
+          <div className="relative mt-2">
+            <img
+              src={
+                post?.images[0] ??
+                "https://miro.medium.com/max/798/1*LU5XQiGYjh60e6njVqEDoQ.png"
+              }
+              // src="https://miro.medium.com/max/798/1*LU5XQiGYjh60e6njVqEDoQ.png"
+              className="object-contain max-h-[300px]"
+            />
+          </div>
         </div>
       </div>
       {/* Download links */}
@@ -128,9 +156,10 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
   return {
     props: {
-      post,
+      postData: post,
+      path: postRef.path,
     },
-    revalidate: 1000,
+    revalidate: 1,
   };
 };
 

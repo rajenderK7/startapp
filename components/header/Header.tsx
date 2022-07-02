@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { PencilIcon, BellIcon } from "@heroicons/react/solid";
+import { PencilIcon, BellIcon, SearchIcon } from "@heroicons/react/solid";
 import { BackspaceIcon } from "@heroicons/react/outline";
 import SideNavbarItem from "../navbar/SideNavbarItem";
 import Link from "next/link";
@@ -25,7 +25,7 @@ const Header = () => {
 
   return (
     <>
-      <div className="h-[60px] px-2 flex bg-black sticky top-0 z-50 backdrop-blur supports-backdrop-blur:bg-white/95">
+      <div className="h-[54px] lg:h-[60px] px-2 flex bg-black sticky top-0 z-50 backdrop-blur supports-backdrop-blur:bg-white/95 w-full">
         <div className="max-w-7xl mx-auto flex flex-1 items-center justify-between">
           {/* Logo */}
           <Link href="/">
@@ -35,7 +35,12 @@ const Header = () => {
           </Link>
 
           {/* Actions */}
-          <div className="flex items-center">
+          <div className="flex items-center space-x-3">
+            {/* Search shortcut */}
+            <SearchIcon
+              onClick={() => router.push("/")}
+              className="nav-icon text-white ml-2"
+            />
             {/* Create Post shortcut */}
             <PencilIcon
               onClick={() => router.push("/create")}
@@ -57,7 +62,7 @@ const Header = () => {
         </div>
       </div>
       {/* Mobile navbar */}
-      <div className="flex max-w-7xl mx-auto items-center justify-evenly w-full lg:hidden">
+      <div className="flex max-w-7xl mx-auto items-center justify-evenly w-full lg:hidden my-2">
         {exploreItems.map((item, index) => (
           <SideNavbarItem
             key={index}

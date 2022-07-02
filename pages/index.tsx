@@ -27,19 +27,17 @@ const Home: NextPage = ({
     <>
       <div className="page-container">
         <div className="h-screen flex-col w-full">
-          <div className="flex items-center mx-auto mb-4 space-x-2">
-            <div className="flex-1">
-              {/* Search */}
-              <Search />
-            </div>
-            <div className="lg:hidden border-r border-r-gray-400 h-8"></div>
-            <div className="lg:hidden lg:w-full">
+          <div className="flex items-center mb-4">
+            {/* Search */}
+            <Search />
+            {/* <div className="lg:hidden border-r border-r-gray-400 h-8"></div> */}
+            {/* <div className="lg:hidden lg:w-full">
               <Link href="/create">
                 <a>
                   <Button title="Post" />
                 </a>
               </Link>
-            </div>
+            </div> */}
           </div>
           {/* Content */}
           <div className="">

@@ -11,10 +11,12 @@ import useUserData from "../lib/hooks/userDataHook";
 import Router, { useRouter } from "next/router";
 
 const SignInPrompt = () => {
+  const router = useRouter();
   // Use google auth provider
   const signInWithGoogle = async () => {
     try {
       await signInWithPopup(auth, googleAuthProvider);
+      router.back();
     } catch (error) {
       toast.error("Something went wrong... 😥");
     }

@@ -1,12 +1,8 @@
-import dayjs, { locale } from "dayjs";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { format } from "timeago.js";
 import PostModel from "../../models/PostModel";
-
-// TODO: Add formatted date
-// TODO: Remove hard coded images
 
 const Post = (post: PostModel) => {
   const createdAt = format(post.createdAt);
@@ -32,9 +28,11 @@ const Post = (post: PostModel) => {
         </p>
         {/* Username and details mobile view */}
         <div className="border-t border-slate-500 flex lg:hidden mt-2 pt-1 justify-between">
-          <p className="app-color-text text-xs">
-            <span className="text-slate-200">by</span> {post?.username}
-          </p>
+          <Link href={`/${post?.username}`}>
+            <p className="app-color-text text-xs">
+              <span className="text-slate-200">by</span> {post?.username}
+            </p>
+          </Link>
           <p className="text-slate-200 text-xs">{createdAt}</p>
         </div>
       </div>
@@ -42,8 +40,7 @@ const Post = (post: PostModel) => {
       <div className="hidden lg:flex flex-col text-white p-2 border-l border-l-slate-600 items-center w-full">
         <div className="relative mb-2 h-20 w-full rounded-md">
           <Image
-            // src={post?.images?.at(0)?.toString() ?? ""}
-            src={post?.photoURL}
+            src={post?.images?.at(0) ?? post?.photoURL}
             alt={post?.title}
             layout="fill"
             objectFit="contain"
@@ -61,7 +58,7 @@ const Post = (post: PostModel) => {
           </div>
           <div className="flex flex-col">
             <Link href={`/${post?.username}`}>
-              <p className="app-color-text text-xs">
+              <p className="app-color-text text-xs cursor-pointer">
                 <span className="text-slate-200 overflow-ellipsis">by</span>{" "}
                 {post?.username}
               </p>
