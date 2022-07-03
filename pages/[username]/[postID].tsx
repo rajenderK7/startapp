@@ -13,6 +13,7 @@ import React, { useContext } from "react";
 import { useDocumentData } from "react-firebase-hooks/firestore";
 import { format } from "timeago.js";
 import { AuthCheck } from "../../components";
+import Metatags from "../../components/Metatags";
 import Button from "../../components/shared/Button";
 import VoteButton from "../../components/VoteButton";
 import VoteDummy from "../../components/VoteDummy";
@@ -43,6 +44,13 @@ const Post = ({
 
   return (
     <div className="flex flex-col w-full mx-auto items-start px-1 lg:px-5 h-screen">
+      <Metatags
+        title={post?.title}
+        description={post?.desc.slice(0, 201)}
+        author={post?.username}
+        image={post?.images.at(0)}
+        url={post?.postID}
+      />
       <AuthCheck fallback={<></>}>
         {post?.username === username ? (
           <div className="flex lg:mt-4">
@@ -112,7 +120,7 @@ const Post = ({
       {/* Description */}
       <div className="flex flex-col">
         <SideHeader title="Description" className="mb-1" />
-        <p className="text-slate-200">{post?.desc}</p>
+        <p className="text-white">{post?.desc}</p>
       </div>
       {/* Images */}
       <div className="my-2 w-full">
