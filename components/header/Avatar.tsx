@@ -56,6 +56,7 @@ const Avatar = ({ profileURL, title }: AvatarI) => {
             alt={title}
             objectFit="contain"
             layout="fill"
+            priority
           />
         </div>
       </Button>

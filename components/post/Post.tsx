@@ -11,7 +11,7 @@ const Post = (post: PostModel) => {
     <div className="w-full flex bg-black rounded-md my-3 shadow-md">
       {/* Votes column */}
       <div
-        className={`bg-white flex flex-col max-w-[100px] p-2 rounded-l-md justify-center items-center`}
+        className={`bg-white flex flex-col max-w-[50px] w-full py-2 rounded-l-md justify-center items-center`}
       >
         <h2 className="text-black font-bold text-lg">{post?.votes}</h2>
         <p className="text-black text-xs">Votes</p>
@@ -54,6 +54,7 @@ const Post = (post: PostModel) => {
               layout="fill"
               objectFit="contain"
               className="rounded-full"
+              priority
             />
           </div>
           <div className="flex flex-col">

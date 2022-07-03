@@ -20,6 +20,7 @@ import toast from "react-hot-toast";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
 import UserContext, { UserContextI } from "../../lib/contexts/userContext";
 import Button from "../../components/shared/Button";
+import Metatags from "../../components/Metatags";
 
 const EditPost = () => {
   return (
@@ -133,6 +134,13 @@ const EditForm = () => {
 
   return (
     <div className="felx-col">
+      <Metatags
+        title={post?.title}
+        description={post?.desc.slice(0, 201)}
+        author={post?.username}
+        image={post?.images.at(0)}
+        url={post?.postID}
+      />
       <div className="flex flex-start w-full my-3">
         <Button
           title="Delete Post"
@@ -144,13 +152,6 @@ const EditForm = () => {
       <form onSubmit={handleSubmit(handleFormSubmit)}>
         {/* Title */}
         <FormLabel htmlFor="title" title="Title" />
-        {/* <textarea
-        {...register("title")}
-        className="mt-1 outline-none w-full border border-black bg-white rounded-md p-2 text-xl lg:text-[2.2rem] font-semibold"
-        id="title"
-        cols={30}
-        rows={3}
-      ></textarea> */}
         <h1
           id="title"
           className="mt-1 mb-3 leading-10 app-color-text outline-none w-full text-xl lg:text-[2.2rem] font-semibold"

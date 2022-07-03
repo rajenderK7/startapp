@@ -6,12 +6,26 @@ const postToJSON = (doc: DocumentSnapshot<DocumentData>) => {
 
   const createdAt = convertTimestamp(data?.createdAt).toString();
   const updatedAt = convertTimestamp(data?.updatedAt).toString();
+  const votes = votesModifier(data?.votes);
 
   return {
     ...data,
+    votes,
     createdAt,
     updatedAt,
   };
+};
+
+const votesModifier = (votes: number): string => {
+  let votesModified = votes.toString();
+
+  if (votes >= 1000 && votes < 1000000) {
+    votesModified = `${(votes / 1000).toFixed(1).toString()}K`;
+  } else if (votes >= 1000000) {
+    votesModified = `${(votes / 1000000).toFixed(1).toString()}M`;
+  }
+
+  return votesModified;
 };
 
 export default postToJSON;
