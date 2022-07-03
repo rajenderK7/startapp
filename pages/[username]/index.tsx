@@ -32,7 +32,8 @@ const Profile = ({
         />
       </div>
       <h1 className="text-black font-mono bg-white shadow-white p-1 rounded-md text-sm lg:font-lg mb-2">
-        {`@${user?.username}`}
+        <span className="font-serif">@</span>
+        {user?.username}
       </h1>
       <div className="flex flex-col w-full  max-w-[50rem] ">
         <p className="text-sm text-slate-200">Posts</p>
