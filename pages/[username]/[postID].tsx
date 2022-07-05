@@ -1,4 +1,3 @@
-import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/solid";
 import {
   collection,
   doc,
@@ -139,7 +138,13 @@ const Post = ({
         </div>
       </div>
       {/* Download links */}
-      <Button title="Download" className="my-2" />
+      <a
+        href={post?.resourceLinks[0] ?? "."}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <Button title="Download" className="my-2" />
+      </a>
       {/* Comments */}
       <div>
         <SideHeader title="Comments" />
