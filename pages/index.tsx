@@ -30,17 +30,9 @@ const Home: NextPage = ({
           <div className="flex items-center mb-4">
             {/* Search */}
             <Search />
-            {/* <div className="lg:hidden border-r border-r-gray-400 h-8"></div> */}
-            {/* <div className="lg:hidden lg:w-full">
-              <Link href="/create">
-                <a>
-                  <Button title="Post" />
-                </a>
-              </Link>
-            </div> */}
           </div>
           {/* Content */}
-          <div className="">
+          <div className="pb-1">
             {posts?.map((post: PostModel) => {
               return <Post {...post} key={post.title} />;
             })}

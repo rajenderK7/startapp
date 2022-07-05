@@ -88,6 +88,9 @@ const EditForm = () => {
 
     setLoading(true);
     try {
+      const resourceLinks: string[] = [];
+      resourceLinks.push(data.resourceLinks[0]);
+
       if (uploadImg) {
         // add image to firebase storage
         const imageRef = ref(storage, `uploads/${user?.uid}/${postRef.id}`);
@@ -100,6 +103,7 @@ const EditForm = () => {
             // update the post in firestore
             await updateDoc(postRef, {
               ...data,
+              resourceLinks,
               images,
               createdAt,
               updatedAt: serverTimestamp(),
@@ -109,6 +113,7 @@ const EditForm = () => {
       } else {
         await updateDoc(postRef, {
           ...data,
+          resourceLinks,
           createdAt,
           updatedAt: serverTimestamp(),
         });
@@ -161,16 +166,17 @@ const EditForm = () => {
         {/* Description */}
         <FormLabel htmlFor="desc" title="Description" />
         <textarea
-          {...register("desc")}
+          {...register("desc", { required: true })}
           className="mt-1 outline-none w-full h-60 border border-black bg-white rounded-md py-1 px-2 lg:text-lg"
           id="desc"
           cols={100}
           rows={3}
         ></textarea>
+        {errors.desc && <p className="text-red-500">*Required field</p>}
         {/* Upload Img */}
-        <div className="flex flex-col items-start">
+        <div className="flex flex-col items-start mt-1">
           <FormLabel htmlFor="desc" title="Upload Images" />
-          <label className="app-color py-1 px-2 mt-1 rounded-md text-white cursor-pointer">
+          <label className="app-color py-1 px-2 mt-2 mb-3 rounded-md text-white cursor-pointer">
             Upload
             <input
               // {...register("uploadImg")}
@@ -184,6 +190,21 @@ const EditForm = () => {
             />
           </label>
         </div>
+        {/* Download links */}
+        <FormLabel htmlFor="resourceLinks" title="Download Links" />
+        <input
+          type="text"
+          id="resourceLinks"
+          className="my-2 w-full rounded-md lg:text-lg p-1 outline-none"
+          {...register("resourceLinks", { required: true })}
+        />
+        {errors.resourceLinks && (
+          <p className="text-red-500">*Required field</p>
+        )}
+        <p className="text-slate-300 mb-3">
+          ℹ️ Please provide github/gitlab repository links only.
+        </p>
+        {/* Publish */}
         <fieldset className="flex items-center space-x-2 mt-2">
           <input id="publish" type="checkbox" {...register("published")} />
           <FormLabel title="Publish" htmlFor="publish" />

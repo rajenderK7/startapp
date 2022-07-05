@@ -22,7 +22,7 @@ const Popular: NextPage = ({
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   return (
     <div className="page-container">
-      <div className="flex flex-col w-full">
+      <div className="pb-1">
         {posts?.map((post: PostModel) => {
           return <Post {...post} key={post?.title} />;
         })}

@@ -23,7 +23,7 @@ const Post = (post: PostModel) => {
             {post.title}
           </h1>
         </Link>
-        <p className="text-slate-200 text-xs lg:text-sm max-h-14 break-words overflow-ellipsis overflow-hidden">
+        <p className="text-slate-200 text-xs lg:text-sm max-h-16 break-words overflow-ellipsis overflow-hidden">
           {post.desc}
         </p>
         {/* Username and details mobile view */}
