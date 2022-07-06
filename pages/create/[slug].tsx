@@ -11,14 +11,11 @@ import React, { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { AuthCheck, FormLabel } from "../../components";
 import { db, storage } from "../../lib/firebase/firebase";
-import {
-  useDocumentData,
-  useDocumentDataOnce,
-} from "react-firebase-hooks/firestore";
+import { useDocumentData } from "react-firebase-hooks/firestore";
 import PostModel from "../../models/PostModel";
 import toast from "react-hot-toast";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
-import UserContext, { UserContextI } from "../../lib/contexts/userContext";
+import UserContext from "../../lib/contexts/userContext";
 import Button from "../../components/shared/Button";
 import Metatags from "../../components/Metatags";
 
@@ -89,7 +86,7 @@ const EditForm = () => {
     setLoading(true);
     try {
       const resourceLinks: string[] = [];
-      resourceLinks.push(data.resourceLinks[0]);
+      resourceLinks.push(data.resourceLinks);
 
       if (uploadImg) {
         // add image to firebase storage
@@ -131,7 +128,7 @@ const EditForm = () => {
   const handleDelete = async () => {
     try {
       await deleteDoc(postRef);
-      router.push("/profile");
+      router.push(`/${username}`);
     } catch (err) {
       toast.error("Something went wrong...");
     }

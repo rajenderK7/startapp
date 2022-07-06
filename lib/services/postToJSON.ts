@@ -1,13 +1,10 @@
-import { convertTimestamp } from "convert-firebase-timestamp";
-import { DocumentData, DocumentSnapshot } from "firebase/firestore";
+import { DocumentData, DocumentSnapshot, Timestamp } from "firebase/firestore";
 
 const postToJSON = (doc: DocumentSnapshot<DocumentData>) => {
   const data = doc.data();
-
-  const createdAt = convertTimestamp(data?.createdAt).toString();
-  const updatedAt = convertTimestamp(data?.updatedAt).toString();
+  const createdAt = (data?.createdAt as Timestamp).toMillis();
+  const updatedAt = (data?.updatedAt as Timestamp).toMillis();
   const votes = votesModifier(data?.votes);
-
   return {
     ...data,
     votes,
