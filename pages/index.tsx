@@ -4,6 +4,8 @@ import {
   limit,
   orderBy,
   query,
+  startAfter,
+  Timestamp,
   where,
 } from "firebase/firestore";
 import type {
@@ -11,7 +13,7 @@ import type {
   InferGetServerSidePropsType,
   NextPage,
 } from "next";
-import Link from "next/link";
+import { useState } from "react";
 import { Rightbar } from "../components";
 import Search from "../components/feed/Search";
 import Post from "../components/post/Post";
@@ -20,13 +22,44 @@ import { db } from "../lib/firebase/firebase";
 import postToJSON from "../lib/services/postToJSON";
 import PostModel from "../models/PostModel";
 
+const POSTS_LIMIT = 10;
+
 const Home: NextPage = ({
-  posts,
+  serverPosts,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+  const [posts, setPosts] = useState(serverPosts);
+
+  const [postsEnd, setPostsEnd] = useState<boolean>(false);
+
+  const getMorePosts = async () => {
+    const lastPost = posts[posts.length - 1];
+
+    const cursor =
+      typeof lastPost.createdAt === "number"
+        ? Timestamp.fromMillis(lastPost.createdAt)
+        : lastPost.createdAt;
+
+    const morePostsQuery = query(
+      collection(db, "posts"),
+      where("published", "==", true),
+      orderBy("createdAt", "desc"),
+      startAfter(cursor),
+      limit(POSTS_LIMIT)
+    );
+
+    const morePosts = (await getDocs(morePostsQuery)).docs.map(postToJSON);
+
+    setPosts(posts.concat(morePosts));
+
+    if (morePosts.length < POSTS_LIMIT) {
+      setPostsEnd(true);
+    }
+  };
+
   return (
     <>
       <div className="page-container">
-        <div className="h-screen flex-col w-full">
+        <div className="flex-col w-full">
           <div className="flex items-center mb-4">
             {/* Search */}
             <Search />
@@ -37,6 +70,17 @@ const Home: NextPage = ({
               return <Post {...post} key={post.title} />;
             })}
           </div>
+          {!postsEnd ? (
+            <Button
+              title="Load more posts.."
+              onClick={getMorePosts}
+              className="mb-3 lg:my-0"
+            />
+          ) : (
+            <p className="text-white font-semibold">
+              You have reached the end.
+            </p>
+          )}
         </div>
       </div>
       <Rightbar />
@@ -49,14 +93,14 @@ export const getServerSideProps: GetServerSideProps = async () => {
     collection(db, "posts"),
     where("published", "==", true),
     orderBy("createdAt", "desc"),
-    limit(10)
+    limit(POSTS_LIMIT)
   );
 
-  const posts = (await getDocs(postsQuery)).docs.map(postToJSON);
+  const serverPosts = (await getDocs(postsQuery)).docs.map(postToJSON);
 
   return {
     props: {
-      posts,
+      serverPosts,
     },
   };
 };

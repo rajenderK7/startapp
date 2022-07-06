@@ -3,3 +3,4 @@ export { default as SideNavbar } from "./navbar/SideNavbar";
 export { default as Rightbar } from "./rightbar/Rightbar";
 export { default as AuthCheck } from "./AuthCheck";
 export { default as FormLabel } from "./FormLabel";
+export { default as Footer } from "./Footer";
