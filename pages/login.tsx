@@ -160,7 +160,7 @@ const Login = () => {
   const { user, username } = useContext(UserContext);
 
   return (
-    <div className="flex flex-col w-full mx-auto items-center mt-4 justify-center">
+    <div className="mt-3 flex flex-col min-h-screen w-full mx-auto items-center">
       <h1 className="font-semibold space-x-1 text-white">Join Startapp 😍</h1>
       <div className="my-4">
         {user ? (

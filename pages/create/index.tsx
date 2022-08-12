@@ -59,7 +59,7 @@ const CreatePost = () => {
 
   return (
     <AuthCheck>
-      <div className="mt-2 w-full lg:w-[700px] flex flex-col items-center justify-center mx-auto">
+      <div className="mt-3 min-h-screen w-full lg:w-[700px] flex flex-col items-center mx-auto">
         <h1 className="mb-2 text-white font-semibold">
           Please pick a title that is concise yet meaningful
         </h1>

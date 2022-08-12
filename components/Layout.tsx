@@ -1,5 +1,6 @@
 import React from "react";
 import JSXProps from "../interfaces/JSXProps";
+import Footer from "./Footer";
 import SideNavbar from "./navbar/SideNavbar";
 
 const Layout = ({ children }: JSXProps) => {
