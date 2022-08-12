@@ -143,7 +143,7 @@ const Post = ({
         target="_blank"
         rel="noopener noreferrer"
       >
-        <Button title="Download" className="my-2" />
+        <Button title="Download Repo" className="my-2" />
       </a>
       {/* Comments */}
       <div>
